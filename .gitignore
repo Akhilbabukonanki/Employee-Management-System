@@ -1,0 +1,8 @@
+c:\238W1A0525\Employee_Management_System\employee_management\db.sqlite3
+c:\238W1A0525\Employee_Management_System\employee_management\staticfiles\
+c:\238W1A0525\Employee_Management_System\employee_management\media\
+c:\238W1A0525\Employee_Management_System\employee_management\__pycache__\
+*.pyc
+*.pyo
+*.pyd
+.DS_Store

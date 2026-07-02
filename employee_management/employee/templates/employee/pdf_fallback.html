@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee List Report - Employee Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            body { font-size: 12px; }
+        }
+        body { font-family: 'Segoe UI', sans-serif; padding: 2rem; }
+        .report-header { border-bottom: 3px solid #4f46e5; padding-bottom: 1rem; margin-bottom: 1.5rem; }
+        th { background-color: #1e40af !important; color: white !important; }
+        .status-active { color: #10b981; font-weight: 600; }
+        .status-inactive { color: #ef4444; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="report-header d-flex justify-content-between align-items-center">
+        <div>
+            <h3 class="fw-bold text-primary mb-1"><i class="bi bi-people-fill"></i> Employee Management System</h3>
+            <p class="text-muted mb-0">Employee Directory Report</p>
+        </div>
+        <div class="text-end no-print">
+            <button onclick="window.print()" class="btn btn-primary btn-sm me-2">
+                <i class="bi bi-printer me-1"></i>Print as PDF
+            </button>
+            <a href="{% url 'employee_list' %}" class="btn btn-outline-secondary btn-sm">Back to List</a>
+        </div>
+    </div>
+
+    <p class="text-muted small mb-3">Total Records: <strong>{{ employees.count }}</strong></p>
+
+    <table class="table table-bordered table-striped table-sm">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Department</th>
+                <th>Designation</th>
+                <th>Salary</th>
+                <th>Joining Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for emp in employees %}
+            <tr>
+                <td>{{ emp.id }}</td>
+                <td>{{ emp.name }}</td>
+                <td>{{ emp.email }}</td>
+                <td>{{ emp.phone }}</td>
+                <td>{{ emp.get_department_display }}</td>
+                <td>{{ emp.designation }}</td>
+                <td>${{ emp.salary|floatformat:2 }}</td>
+                <td>{{ emp.joining_date|date:"M d, Y" }}</td>
+                <td class="{% if emp.status == 'Active' %}status-active{% else %}status-inactive{% endif %}">{{ emp.status }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="9" class="text-center text-muted py-4">No employee records found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

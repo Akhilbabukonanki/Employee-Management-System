@@ -1,0 +1,53 @@
+{% extends 'employee/base.html' %}
+
+{% block title %}Delete Confirmation - {{ object.name }}{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'employee_list' %}" class="text-decoration-none">Employees</a></li>
+<li class="breadcrumb-item"><a href="{% url 'employee_detail' object.id %}" class="text-decoration-none">{{ object.id }}</a></li>
+<li class="breadcrumb-item active" aria-current="page">Delete</li>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+        <div class="card border-0 shadow-lg mt-4" style="border-radius:16px;">
+            <div class="card-body p-4 text-center">
+                <div class="icon-box bg-danger bg-opacity-10 text-danger p-3 rounded-circle d-inline-flex justify-content-center align-items-center mb-4" style="width: 70px; height: 70px; font-size: 2.2rem;">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                </div>
+                
+                <h3 class="fw-bold mb-2">Delete Employee Profile</h3>
+                <p class="text-secondary mb-4">
+                    Are you sure you want to permanently delete the profile of <strong class="text-dark">{{ object.name }}</strong> (ID: {{ object.id }})? This action cannot be undone.
+                </p>
+
+                <!-- Profile summary preview box -->
+                <div class="bg-light p-3 rounded-3 mb-4 text-start">
+                    <div class="d-flex align-items-center gap-3">
+                        {% if object.photo %}
+                            <img src="{{ object.photo.url }}" alt="{{ object.name }}" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                        {% else %}
+                            <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white" style="width: 50px; height: 50px; font-size: 1.2rem; font-weight: 600;">
+                                {{ object.name|slice:":2"|upper }}
+                            </div>
+                        {% endif %}
+                        <div>
+                            <h6 class="fw-bold mb-0 text-dark">{{ object.name }}</h6>
+                            <span class="text-secondary small">{{ object.designation }} | {{ object.get_department_display }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="d-flex gap-2 justify-content-center">
+                        <a href="{% url 'employee_detail' object.id %}" class="btn btn-light fw-bold px-4">Cancel</a>
+                        <button type="submit" class="btn btn-danger fw-bold px-4">Confirm Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,159 @@
+{% extends 'employee/base.html' %}
+
+{% block title %}Edit Employee - {{ object.name }}{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'employee_list' %}" class="text-decoration-none">Employees</a></li>
+<li class="breadcrumb-item"><a href="{% url 'employee_detail' object.id %}" class="text-decoration-none">{{ object.id }}</a></li>
+<li class="breadcrumb-item active" aria-current="page">Edit</li>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-0">Modify Employee Details</h2>
+        <p class="text-muted mb-0">Update metadata and settings for {{ object.name }}'s profile.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-xl-10">
+        <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+            {% csrf_token %}
+            
+            <div class="row g-4">
+                <!-- Photo Upload Box -->
+                <div class="col-12 col-md-4 text-center">
+                    <div class="card card-custom py-4">
+                        <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                            <div class="profile-photo-container mb-3 shadow-sm" style="width: 130px; height: 130px;">
+                                {% if object.photo %}
+                                    <img id="photo-preview" src="{{ object.photo.url }}" alt="Profile Photo Preview">
+                                {% else %}
+                                    <img id="photo-preview" src="https://via.placeholder.com/150?text=Upload+Photo" alt="Profile Photo Preview">
+                                {% endif %}
+                            </div>
+                            
+                            <label for="id_photo" class="btn btn-outline-primary btn-sm fw-semibold mt-2">
+                                <i class="bi bi-camera me-1"></i> Replace Photo
+                            </label>
+                            
+                            <div class="d-none">
+                                {{ form.photo }}
+                            </div>
+                            
+                            <span class="text-muted small mt-3">JPG, PNG, GIF formats.<br>Max file size 5MB.</span>
+                            
+                            {% if form.photo.errors %}
+                                <div class="text-danger small mt-2">
+                                    {{ form.photo.errors|striptags }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Profile Fields Form Card -->
+                <div class="col-12 col-md-8">
+                    <div class="card card-custom mb-0">
+                        <div class="card-header bg-light">
+                            <h5 class="fw-bold text-secondary mb-0 small text-uppercase">Employee Information</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <!-- Name -->
+                                <div class="col-12 col-sm-6">
+                                    <label for="id_name" class="form-label small fw-semibold text-secondary">Full Name *</label>
+                                    {{ form.name }}
+                                    {% if form.name.errors %}
+                                        <div class="text-danger small mt-1">{{ form.name.errors|striptags }}</div>
+                                    {% endif %}
+                                </div>
+                                <!-- Email -->
+                                <div class="col-12 col-sm-6">
+                                    <label for="id_email" class="form-label small fw-semibold text-secondary">Email Address *</label>
+                                    {{ form.email }}
+                                    {% if form.email.errors %}
+                                        <div class="text-danger small mt-1">{{ form.email.errors|striptags }}</div>
+                                    {% endif %}
+                                </div>
+                                <!-- Phone -->
+                                <div class="col-12 col-sm-6">
+                                    <label for="id_phone" class="form-label small fw-semibold text-secondary">Phone Number *</label>
+                                    {{ form.phone }}
+                                    {% if form.phone.errors %}
+                                        <div class="text-danger small mt-1">{{ form.phone.errors|striptags }}</div>
+                                    {% endif %}
+                                </div>
+                                <!-- Gender -->
+                                <div class="col-12 col-sm-6">
+                                    <label for="id_gender" class="form-label small fw-semibold text-secondary">Gender *</label>
+                                    {{ form.gender }}
+                                    {% if form.gender.errors %}
+                                        <div class="text-danger small mt-1">{{ form.gender.errors|striptags }}</div>
+                                    {% endif %}
+                                </div>
+                                <!-- Department -->
+                                <div class="col-12 col-sm-6">
+                                    <label for="id_department" class="form-label small fw-semibold text-secondary">Department *</label>
+                                    {{ form.department }}
+                                    {% if form.department.errors %}
+                                        <div class="text-danger small mt-1">{{ form.department.errors|striptags }}</div>
+                                    {% endif %}
+                                </div>
+                                <!-- Designation -->
+                                <div class="col-12 col-sm-6">
+                                    <label for="id_designation" class="form-label small fw-semibold text-secondary">Designation *</label>
+                                    {{ form.designation }}
+                                    {% if form.designation.errors %}
+                                        <div class="text-danger small mt-1">{{ form.designation.errors|striptags }}</div>
+                                    {% endif %}
+                                </div>
+                                <!-- Salary -->
+                                <div class="col-12 col-sm-6">
+                                    <label for="id_salary" class="form-label small fw-semibold text-secondary">Salary Package (Annual USD) *</label>
+                                    {{ form.salary }}
+                                    {% if form.salary.errors %}
+                                        <div class="text-danger small mt-1">{{ form.salary.errors|striptags }}</div>
+                                    {% endif %}
+                                </div>
+                                <!-- Joining Date -->
+                                <div class="col-12 col-sm-6">
+                                    <label for="id_joining_date" class="form-label small fw-semibold text-secondary">Joining Date *</label>
+                                    {{ form.joining_date }}
+                                    {% if form.joining_date.errors %}
+                                        <div class="text-danger small mt-1">{{ form.joining_date.errors|striptags }}</div>
+                                    {% endif %}
+                                </div>
+                                <!-- Status -->
+                                <div class="col-12 col-sm-6">
+                                    <label for="id_status" class="form-label small fw-semibold text-secondary">Status *</label>
+                                    {{ form.status }}
+                                    {% if form.status.errors %}
+                                        <div class="text-danger small mt-1">{{ form.status.errors|striptags }}</div>
+                                    {% endif %}
+                                </div>
+                                <!-- Address -->
+                                <div class="col-12">
+                                    <label for="id_address" class="form-label small fw-semibold text-secondary">Home Address *</label>
+                                    {{ form.address }}
+                                    {% if form.address.errors %}
+                                        <div class="text-danger small mt-1">{{ form.address.errors|striptags }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                                <a href="{% url 'employee_detail' object.id %}" class="btn btn-light fw-semibold">Cancel</a>
+                                <button type="submit" class="btn btn-primary fw-semibold px-4">Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</div>
+{% endblock %}
